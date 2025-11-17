@@ -1,10 +1,29 @@
-import { Landing } from "@/pages/Landing"
-import { Route, Routes } from "react-router"
+import { DashboardLayout } from "@/layouts/DashboardLayout";
+import { Landing } from "@/pages/Landing";
+import { Route, Routes } from "react-router";
+import { RequireAuth } from "./RequireAuth";
+import { AuthLayout } from "@/layouts/AuthLayout";
+import { LoginForm } from "@/components/auth/LoginForm";
+import { SignUpForm } from "@/components/auth/SignUpForm";
 
 export const AppRoutes = () => {
-    return (
-        <Routes>
-            <Route path="/" element={<Landing />} />
-        </Routes>
-    )
-}
+  return (
+    <Routes>
+      <Route path="/" element={<Landing />} />
+
+      <Route
+        path={"app"}
+        element={
+          <RequireAuth>
+            <DashboardLayout />
+          </RequireAuth>
+        }
+      ></Route>
+      <Route element={<AuthLayout />}>
+        <Route path="login" element={<LoginForm />} />
+        <Route path="signup" element={<SignUpForm />} />
+      </Route>
+      <Route path="*" element={<Landing />} />
+    </Routes>
+  );
+};
