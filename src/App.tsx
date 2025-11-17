@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useThemeStore } from "./stores/useThemeStore";
+import { AppRoutes } from "./routes/AppRoutes";
 
 function App() {
   const theme = useThemeStore((state) => state.theme)
@@ -15,7 +16,7 @@ function App() {
   }, [theme])
   return (
     <>
-      <h1>App</h1>
+      <AppRoutes />
     </>
   );
 }
