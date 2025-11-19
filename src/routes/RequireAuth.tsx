@@ -8,13 +8,20 @@ interface RequireAuthProps {
 }
 export const RequireAuth = ({ children }: RequireAuthProps) => {
   const user = useAuthStore((state) => state.user);
+  const loading = useAuthStore((state) => state.loading);
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (loading) return;
+
     if (!user) {
       navigate("/login", { replace: true });
     }
-  }, [user, navigate]);
-  
+  }, [user, navigate, loading]);
+
+   if (loading) {
+    return <div>Cargando...</div>; // o un spinner
+  }
+
   return user ? children : null;
 };

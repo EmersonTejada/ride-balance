@@ -5,11 +5,13 @@ import { RequireAuth } from "./RequireAuth";
 import { AuthLayout } from "@/layouts/AuthLayout";
 import { LoginForm } from "@/components/auth/LoginForm";
 import { SignUpForm } from "@/components/auth/SignUpForm";
+import { AuthCallback } from "./AuthCallback";
 
 export const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Landing />} />
+      <Route path="auth/callback" element={<AuthCallback />} />
 
       <Route
         path={"app"}

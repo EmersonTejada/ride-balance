@@ -1,58 +1,144 @@
-import { Link } from "react-router";
-import { Button } from "../ui/button";
+import { Link, useNavigate } from "react-router";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
+
+import { Button } from "../ui/button";
+import { useForm, Controller } from "react-hook-form";
+import { loginSchema } from "@/schemas/auth.schema";
+import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "../ui/input-group";
+import { LockIcon, MailIcon } from "lucide-react";
+import { useAuthStore } from "@/stores/useAuthStore";
+import { useState } from "react";
 
 export const LoginForm = () => {
+  const login = useAuthStore((state) => state.login);
+  const error = useAuthStore((state) => state.error);
+  const loading = useAuthStore((state) => state.loading);
+  const loginWithGoogle = useAuthStore((state) => state.signInWithGoogle);
+  const navigate = useNavigate();
+
+  const [loadingGoogleAuth, setLoadingGoogleAuth] = useState(false);
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    mode: "onSubmit",
+  });
+
+  const onSubmit = async (data: z.infer<typeof loginSchema>) => {
+    const result = await login(data);
+    if (result.success) {
+      navigate("/app");
+    } else {
+      console.error("Error:", error);
+    }
+  };
   return (
     <Card className="w-full max-w-sm">
-      <CardHeader>
-        <CardTitle>Ingresa a tu cuenta</CardTitle>
+      <CardHeader className="text-center text-pretty">
+        <CardTitle className="text-2xl font-bold">Inicia sesión</CardTitle>
         <CardDescription>
-          Ingresa tu correo electrónico para acceder a tu cuenta
+          Ingresa tu correo electrónico y contraseña para iniciar sesión
         </CardDescription>
-        <CardAction>
-          <Link to="/signup"><Button variant="link">Registro</Button></Link>
-        </CardAction>
       </CardHeader>
       <CardContent>
-        <form>
+        <form id="signin-form" onSubmit={form.handleSubmit(onSubmit)}>
           <div className="flex flex-col gap-6">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="m@example.com"
-                required
+            <FieldGroup className="gap-4">
+              <Controller
+                name="email"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid} className="gap-2">
+                    <FieldLabel htmlFor="signup-form-email">Email</FieldLabel>
+                    <InputGroup>
+                      <InputGroupInput
+                        {...field}
+                        id={field.name}
+                        type="email"
+                        autoComplete="off"
+                        placeholder="Ingresa tu email"
+                      />
+                      <InputGroupAddon>
+                        <MailIcon />
+                      </InputGroupAddon>
+                    </InputGroup>
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
               />
-            </div>
-            <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
-                
-              </div>
-              <Input id="password" type="password" required />
-            </div>
+              <Controller
+                name="password"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid} className="gap-2">
+                    <FieldLabel htmlFor={field.name}>Password</FieldLabel>
+                    <InputGroup>
+                      <InputGroupInput
+                        {...field}
+                        id={field.name}
+                        aria-invalid={fieldState.invalid}
+                        type="password"
+                        placeholder="Ingresa tu contraseña"
+                      />
+                      <InputGroupAddon>
+                        <LockIcon />
+                      </InputGroupAddon>
+                    </InputGroup>
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+            </FieldGroup>
+            {error && <p className="text-destructive">{error}</p>}
           </div>
         </form>
       </CardContent>
-      <CardFooter className="flex-col gap-2">
-        <Button type="submit" className="w-full">
-          Login
+      <CardFooter className="flex-col gap-3">
+        <Button
+          type="submit"
+          form="signin-form"
+          className="w-full cursor-pointer"
+          disabled={loading}
+        >
+          {loading ? "Cargando" : "Iniciar Sesión"}
         </Button>
-        <Button variant="outline" className="w-full">
-          Login with Google
+        <Button
+          variant="outline"
+          className="w-full cursor-pointer"
+          disabled={loadingGoogleAuth}
+          onClick={() => {
+            setLoadingGoogleAuth(true);
+            loginWithGoogle();
+          }}
+        >
+          {loadingGoogleAuth ? "Redirigiendo..." : "Continúa con Google"}
         </Button>
+        <div className="flex items-center gap-1 text-sm text-muted-foreground">
+          <p>¿No tienes una cuenta?</p>
+          <Link to={"/signup"}>
+            <span className="text-primary">Regístrate</span>
+          </Link>
+        </div>
       </CardFooter>
     </Card>
   );

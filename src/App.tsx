@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import { useThemeStore } from "./stores/useThemeStore";
 import { AppRoutes } from "./routes/AppRoutes";
+import { useAuthStore } from "./stores/useAuthStore";
 
 function App() {
   const theme = useThemeStore((state) => state.theme)
+  const checkSession = useAuthStore((state) => state.checkSession)
 
   useEffect(() => {
     const root = document.documentElement
@@ -14,6 +16,11 @@ function App() {
       root.classList.toggle("dark", theme === "dark")
     }
   }, [theme])
+
+  useEffect(() => {
+    checkSession()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   return (
     <>
       <AppRoutes />

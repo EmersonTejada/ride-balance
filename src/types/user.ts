@@ -1,16 +1,15 @@
 export interface User {
-    id: number;
-    username: string;
+    id: string;
+    username?: string;
     email: string;
 } 
 
 export interface NewUser {
-    username: string;
     email: string;
     password: string;
 }
 
 export interface LoginUser {
-    username: string
+    email: string
     password: string
 }
