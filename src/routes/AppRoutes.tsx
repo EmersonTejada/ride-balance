@@ -6,6 +6,8 @@ import { AuthLayout } from "@/layouts/AuthLayout";
 import { LoginForm } from "@/components/auth/LoginForm";
 import { SignUpForm } from "@/components/auth/SignUpForm";
 import { AuthCallback } from "./AuthCallback";
+import { Dashboard } from "@/pages/dashboard/Dashboard";
+import { Incomes } from "@/pages/dashboard/Incomes";
 
 export const AppRoutes = () => {
   return (
@@ -14,13 +16,16 @@ export const AppRoutes = () => {
       <Route path="auth/callback" element={<AuthCallback />} />
 
       <Route
-        path={"app"}
+        path="app"
         element={
           <RequireAuth>
             <DashboardLayout />
           </RequireAuth>
         }
-      ></Route>
+      >
+        <Route index element={<Dashboard />} />
+        <Route path="incomes" element={<Incomes />} />
+      </Route>
       <Route element={<AuthLayout />}>
         <Route path="login" element={<LoginForm />} />
         <Route path="signup" element={<SignUpForm />} />
