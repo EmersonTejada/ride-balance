@@ -11,11 +11,12 @@ export const DashboardLayout = () => {
       <AppSidebar />
       <div className="flex flex-col w-full">
         <Header />
-        <main className="p-6 pb-20 md:pb-6">
+        <main className="p-6 md:pb-6 h-full relative">
           <Outlet />
         </main>
+        <BottomNavigation />
       </div>
-      <BottomNavigation />
+      
     </SidebarProvider>
   );
 };

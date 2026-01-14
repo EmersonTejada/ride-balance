@@ -94,7 +94,7 @@ export const deleteRide = async (id: string) => {
 export const updateRide = async (id: string, ride: Partial<NewRide>) => {
   try {
     const response = await fetch(`${API_URL}/rides/${id}`, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
