@@ -13,13 +13,13 @@ export const RequireAuth = ({ children }: RequireAuthProps) => {
 
   useEffect(() => {
     if (loading) return;
-
+    
     if (!user) {
       navigate("/login", { replace: true });
     }
   }, [user, navigate, loading]);
 
-   if (loading) {
+  if (loading) {
     return <div>Cargando...</div>; // o un spinner
   }
 

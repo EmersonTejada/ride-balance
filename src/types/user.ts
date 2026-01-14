@@ -1,12 +1,13 @@
 export interface User {
-    id: string;
-    username?: string;
+    userId: string;
+    name?: string;
     email: string;
-} 
+}
 
 export interface NewUser {
     email: string;
     password: string;
+    name: string;
 }
 
 export interface LoginUser {

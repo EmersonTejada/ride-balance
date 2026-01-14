@@ -1,35 +1,95 @@
-import supabase from "@/utils/supabase";
+import type { NewUser } from "@/types/user";
 
-export const signUp = async (email: string, password: string) => {
-  const { data, error } = await supabase.auth.signUp({ email, password });
-  return { data, error };
+const API_URL = import.meta.env.VITE_API_URL
+
+export const signUp = async (user: NewUser) => {
+  try {
+    const response = await fetch(`${API_URL}/auth/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+      credentials: "include"
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message);
+    }
+
+    return data;
+  } catch (err) {
+    console.error(err)
+    throw err;
+  }
 };
 
 export const signIn = async (email: string, password: string) => {
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
-  return { data, error };
+  try {
+    const response = await fetch(`${API_URL}/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+      credentials: "include"
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(`${data.message}`)
+    }
+
+    return data;
+  } catch (err) {
+    console.error(err);
+    throw err
+  }
 };
 
 export const signOut = async () => {
-  const { error } = await supabase.auth.signOut();
-  return { error };
+  try {
+    const response = await fetch(`${API_URL}/auth/logout`, {
+      method: "POST",
+      credentials: "include"
+    });
+
+    const data = await response.json()
+
+    if (!response.ok) {
+      console.log(response);
+      throw new Error(`${data.message}`)
+    }
+
+    return data;
+  } catch(err) {
+    console.error(err)
+    throw err
+  }
 };
 
 export const getUser = async () => {
-  const { data, error } = await supabase.auth.getUser();
-  return { data, error };
+  try {
+    
+    const response = await fetch(`${API_URL}/auth/me`, {
+      method: "GET",
+      credentials: "include"
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(`${data.message}`);
+    }
+
+    return data;
+  } catch (err) {
+    console.error(err)
+    throw err;
+  }
 };
 
-export const loginWithGoogle = async () => {
-  const {data, error} = await supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: {
-      redirectTo: window.location.origin + "/auth/callback",
-    },
-  });
 
-  return {data, error}
-};

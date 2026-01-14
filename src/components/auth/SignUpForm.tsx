@@ -19,18 +19,25 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "../ui/input-group";
-import { LockIcon, MailIcon } from "lucide-react";
+import { LockIcon, MailIcon, UserIcon } from "lucide-react";
 import { useAuthStore } from "@/stores/useAuthStore";
+import { useEffect } from "react";
 
 export const SignUpForm = () => {
   const signUp = useAuthStore((state) => state.signUp);
   const loading = useAuthStore((state) => state.loading);
   const error = useAuthStore((state) => state.error);
+  const clearError = useAuthStore((state) => state.clearError);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    clearError();
+  }, [clearError]);
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -39,7 +46,8 @@ export const SignUpForm = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
-    const result = await signUp(data);
+    const { email, password, name} = data;
+    const result = await signUp({email, password, name});
     if (result.success) {
       navigate("/app");
     } else {
@@ -58,6 +66,30 @@ export const SignUpForm = () => {
         <form id="signup-form" onSubmit={form.handleSubmit(onSubmit)}>
           <div className="flex flex-col gap-6">
             <FieldGroup className="gap-4">
+              <Controller
+                name="name"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid} className="gap-2">
+                    <FieldLabel htmlFor={field.name}>Nombre</FieldLabel>
+                    <InputGroup>
+                      <InputGroupInput
+                        {...field}
+                        id={field.name}
+                        type="text"
+                        autoComplete="off"
+                        placeholder="Ingresa tu nombre"
+                      />
+                      <InputGroupAddon>
+                        <UserIcon />
+                      </InputGroupAddon>
+                    </InputGroup>
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
               <Controller
                 name="email"
                 control={form.control}

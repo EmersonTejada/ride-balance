@@ -21,16 +21,21 @@ import {
 } from "../ui/input-group";
 import { LockIcon, MailIcon } from "lucide-react";
 import { useAuthStore } from "@/stores/useAuthStore";
-import { useState } from "react";
+import { useEffect } from "react";
 
 export const LoginForm = () => {
   const login = useAuthStore((state) => state.login);
   const error = useAuthStore((state) => state.error);
   const loading = useAuthStore((state) => state.loading);
-  const loginWithGoogle = useAuthStore((state) => state.signInWithGoogle);
+  // const loginWithGoogle = useAuthStore((state) => state.signInWithGoogle);
+  const clearError = useAuthStore((state) => state.clearError);
   const navigate = useNavigate();
 
-  const [loadingGoogleAuth, setLoadingGoogleAuth] = useState(false);
+  useEffect(() => {
+    clearError();
+  }, [clearError]);
+
+  // const [loadingGoogleAuth, setLoadingGoogleAuth] = useState(false);
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -44,8 +49,6 @@ export const LoginForm = () => {
     const result = await login(data);
     if (result.success) {
       navigate("/app");
-    } else {
-      console.error("Error:", error);
     }
   };
   return (
@@ -109,7 +112,7 @@ export const LoginForm = () => {
                 )}
               />
             </FieldGroup>
-            {error && <p className="text-destructive">{error}</p>}
+            {error && <div className="text-destructive">{error}</div>}
           </div>
         </form>
       </CardContent>
@@ -122,7 +125,7 @@ export const LoginForm = () => {
         >
           {loading ? "Cargando" : "Iniciar Sesión"}
         </Button>
-        <Button
+        {/* <Button
           variant="outline"
           className="w-full cursor-pointer"
           disabled={loadingGoogleAuth}
@@ -132,7 +135,7 @@ export const LoginForm = () => {
           }}
         >
           {loadingGoogleAuth ? "Redirigiendo..." : "Continúa con Google"}
-        </Button>
+        </Button> */}
         <div className="flex items-center gap-1 text-sm text-muted-foreground">
           <p>¿No tienes una cuenta?</p>
           <Link to={"/signup"}>

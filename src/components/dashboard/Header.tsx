@@ -13,24 +13,31 @@ export const Header = () => {
   };
 
   const getInitials = (name: string) => {
-    return name.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase();
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase();
   };
 
-  const displayName = user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email || 'User';
+  const displayName = user?.name || user?.email || "User";
 
   return (
     <header className="flex items-center justify-between p-4 border-b bg-background">
       <div className="flex items-center gap-3">
         <Avatar>
-          <AvatarImage src={user?.user_metadata?.avatar_url || user?.user_metadata?.picture} alt={displayName} />
-          <AvatarFallback>
-            {getInitials(displayName)}
-          </AvatarFallback>
+          <AvatarImage alt={displayName} />
+          <AvatarFallback>{getInitials(displayName)}</AvatarFallback>
         </Avatar>
         <span className="text-sm font-medium">{displayName}</span>
       </div>
       <Button variant="ghost" size="icon" onClick={toggleTheme}>
-        {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+        {theme === "dark" ? (
+          <Sun className="h-4 w-4" />
+        ) : (
+          <Moon className="h-4 w-4" />
+        )}
       </Button>
     </header>
   );
