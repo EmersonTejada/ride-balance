@@ -48,7 +48,7 @@ export const CreateExpenseForm = ({ open, onOpenChange }: CreateExpenseFormProps
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent onOpenAutoFocus={(e: Event) => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle>Registrar Gasto</DialogTitle>
         </DialogHeader>

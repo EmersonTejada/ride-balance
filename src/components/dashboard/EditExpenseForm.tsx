@@ -49,7 +49,7 @@ export const EditExpenseForm = ({ expense, open, onOpenChange }: EditExpenseForm
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent onOpenAutoFocus={(e: Event) => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle>Editar Gasto</DialogTitle>
         </DialogHeader>

@@ -45,7 +45,7 @@ export const EditRideForm = ({ ride, open, onOpenChange }: EditRideFormProps) =>
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent onOpenAutoFocus={(e: Event) => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle>Editar Viaje</DialogTitle>
         </DialogHeader>
