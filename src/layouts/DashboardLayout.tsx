@@ -11,7 +11,7 @@ export const DashboardLayout = () => {
       <AppSidebar />
       <div className="flex flex-col w-full">
         <Header />
-        <main className="p-6 md:pb-6 h-full relative">
+        <main className="p-6 md:pb-6 h-full pb-20 relative">
           <Outlet />
         </main>
         <BottomNavigation />
