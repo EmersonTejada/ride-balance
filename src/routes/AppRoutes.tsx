@@ -8,6 +8,7 @@ import { SignUpForm } from "@/components/auth/SignUpForm";
 import { AuthCallback } from "./AuthCallback";
 import { Dashboard } from "@/pages/dashboard/Dashboard";
 import { Incomes } from "@/pages/dashboard/Incomes";
+import { Expenses } from "@/pages/dashboard/Expenses";
 
 export const AppRoutes = () => {
   return (
@@ -25,6 +26,7 @@ export const AppRoutes = () => {
       >
         <Route index element={<Dashboard />} />
         <Route path="incomes" element={<Incomes />} />
+        <Route path="expenses" element={<Expenses />} />
       </Route>
       <Route element={<AuthLayout />}>
         <Route path="login" element={<LoginForm />} />
