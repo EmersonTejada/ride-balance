@@ -23,6 +23,8 @@ import {
 } from "@/components/ui/dialog";
 import type { Expense, ExpenseFilters } from "@/schemas/expense.schema";
 import { EditIcon, TrashIcon, PlusIcon } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Spinner } from "@/components/ui/spinner";
 
 const categoryLabels: Record<string, string> = {
   fuel: "Combustible",
@@ -200,11 +202,17 @@ export const Expenses = () => {
           </TableHeader>
           <TableBody>
             {loading ? (
-              <TableRow>
-                <TableCell colSpan={5} className="text-center">
-                  Cargando...
-                </TableCell>
-              </TableRow>
+              <>
+                {[...Array(5)].map((_, i) => (
+                  <TableRow key={i}>
+                    <TableCell className="text-center"><Skeleton className="h-4 w-20 mx-auto" /></TableCell>
+                    <TableCell className="text-center"><Skeleton className="h-4 w-24 mx-auto" /></TableCell>
+                    <TableCell className="text-center"><Skeleton className="h-4 w-28 mx-auto" /></TableCell>
+                    <TableCell className="text-center"><Skeleton className="h-4 w-16 mx-auto" /></TableCell>
+                    <TableCell className="text-center"><Skeleton className="h-8 w-20 mx-auto" /></TableCell>
+                  </TableRow>
+                ))}
+              </>
             ) : expenses.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={5} className="text-center">
@@ -257,7 +265,10 @@ export const Expenses = () => {
       {/* Mobile Cards */}
       <div className="sm:hidden space-y-2">
         {loading ? (
-          <p className="text-center">Cargando...</p>
+          <div className="flex flex-col items-center justify-center py-8 gap-2">
+            <Spinner className="h-6 w-6" />
+            <p className="text-sm text-muted-foreground">Cargando gastos...</p>
+          </div>
         ) : expenses.length === 0 ? (
           <p className="text-center">No hay gastos registrados</p>
         ) : (

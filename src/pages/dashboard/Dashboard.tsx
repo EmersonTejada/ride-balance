@@ -16,6 +16,7 @@ import {
   BanknoteArrowDownIcon,
   Wallet,
 } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 
 
@@ -46,8 +47,12 @@ const filterByDateRange = <T extends { date: Date | string }>(
 export const Dashboard = () => {
   const rides = useRideStore((state) => state.rides);
   const fetchRides = useRideStore((state) => state.fetchRides);
+  const ridesLoading = useRideStore((state) => state.loading);
   const expenses = useExpenseStore((state) => state.expenses);
   const fetchExpenses = useExpenseStore((state) => state.fetchExpenses);
+  const expensesLoading = useExpenseStore((state) => state.loading);
+
+  const loading = ridesLoading || expensesLoading;
 
   useEffect(() => {
     fetchRides();
@@ -116,7 +121,11 @@ export const Dashboard = () => {
               </Button>
             </CardHeader>
             <CardContent className="flex-1 flex items-center">
-              <span className="text-3xl font-bold">{weeklyIncome.toFixed(2)}$</span>
+              {loading ? (
+                <Skeleton className="h-8 w-24" />
+              ) : (
+                <span className="text-3xl font-bold">{weeklyIncome.toFixed(2)}$</span>
+              )}
             </CardContent>
           </Card>
 
@@ -131,7 +140,11 @@ export const Dashboard = () => {
               </Button>
             </CardHeader>
             <CardContent className="flex-1 flex items-center">
-              <span className="text-3xl font-bold">{monthlyIncome.toFixed(2)}$</span>
+              {loading ? (
+                <Skeleton className="h-8 w-24" />
+              ) : (
+                <span className="text-3xl font-bold">{monthlyIncome.toFixed(2)}$</span>
+              )}
             </CardContent>
           </Card>
 
@@ -146,9 +159,13 @@ export const Dashboard = () => {
               </Button>
             </CardHeader>
             <CardContent className="flex-1 flex items-center">
-              <span className="text-3xl font-bold text-destructive">
-                -{weeklyExpenseTotal.toFixed(2)}$
-              </span>
+              {loading ? (
+                <Skeleton className="h-8 w-24" />
+              ) : (
+                <span className="text-3xl font-bold text-destructive">
+                  -{weeklyExpenseTotal.toFixed(2)}$
+                </span>
+              )}
             </CardContent>
           </Card>
 
@@ -166,9 +183,13 @@ export const Dashboard = () => {
               </Button>
             </CardHeader>
             <CardContent className="flex-1 flex items-center">
-              <span className={`text-3xl font-bold ${weeklyNet >= 0 ? "text-emerald-600" : "text-orange-600"}`}>
-                {weeklyNet.toFixed(2)}$
-              </span>
+              {loading ? (
+                <Skeleton className="h-8 w-24" />
+              ) : (
+                <span className={`text-3xl font-bold ${weeklyNet >= 0 ? "text-emerald-600" : "text-orange-600"}`}>
+                  {weeklyNet.toFixed(2)}$
+                </span>
+              )}
             </CardContent>
           </Card>
         </div>
@@ -184,7 +205,19 @@ export const Dashboard = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {last5Expenses.length === 0 ? (
+              {loading ? (
+                <div className="space-y-3">
+                  {[...Array(5)].map((_, i) => (
+                    <div key={i} className="flex justify-between items-center py-2 border-b last:border-0">
+                      <div className="space-y-2">
+                        <Skeleton className="h-4 w-24" />
+                        <Skeleton className="h-3 w-16" />
+                      </div>
+                      <Skeleton className="h-4 w-12" />
+                    </div>
+                  ))}
+                </div>
+              ) : last5Expenses.length === 0 ? (
                 <p className="text-muted-foreground text-center py-4">
                   No hay gastos registrados
                 </p>
@@ -222,7 +255,19 @@ export const Dashboard = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {last5Rides.length === 0 ? (
+              {loading ? (
+                <div className="space-y-3">
+                  {[...Array(5)].map((_, i) => (
+                    <div key={i} className="flex justify-between items-center py-2 border-b last:border-0">
+                      <div className="space-y-2">
+                        <Skeleton className="h-4 w-20" />
+                        <Skeleton className="h-3 w-16" />
+                      </div>
+                      <Skeleton className="h-4 w-12" />
+                    </div>
+                  ))}
+                </div>
+              ) : last5Rides.length === 0 ? (
                 <p className="text-muted-foreground text-center py-4">
                   No hay viajes registrados
                 </p>

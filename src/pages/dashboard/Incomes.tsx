@@ -23,6 +23,8 @@ import {
 } from "@/components/ui/dialog";
 import type { Ride, RideFilters } from "@/types/ride";
 import { EditIcon, TrashIcon, PlusIcon } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Spinner } from "@/components/ui/spinner";
 
 export const Incomes = () => {
   const rides = useRideStore((state) => state.rides);
@@ -159,11 +161,16 @@ export const Incomes = () => {
           </TableHeader>
           <TableBody>
             {loading ? (
-              <TableRow>
-                <TableCell colSpan={4} className="text-center">
-                  Cargando...
-                </TableCell>
-              </TableRow>
+              <>
+                {[...Array(5)].map((_, i) => (
+                  <TableRow key={i}>
+                    <TableCell className="text-center"><Skeleton className="h-4 w-20 mx-auto" /></TableCell>
+                    <TableCell className="text-center"><Skeleton className="h-4 w-24 mx-auto" /></TableCell>
+                    <TableCell className="text-center"><Skeleton className="h-4 w-16 mx-auto" /></TableCell>
+                    <TableCell className="text-center"><Skeleton className="h-8 w-20 mx-auto" /></TableCell>
+                  </TableRow>
+                ))}
+              </>
             ) : rides.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={4} className="text-center">
@@ -206,7 +213,10 @@ export const Incomes = () => {
       {/* Mobile Cards */}
       <div className="sm:hidden space-y-2">
         {loading ? (
-          <p className="text-center">Cargando...</p>
+          <div className="flex flex-col items-center justify-center py-8 gap-2">
+            <Spinner className="h-6 w-6" />
+            <p className="text-sm text-muted-foreground">Cargando viajes...</p>
+          </div>
         ) : rides.length === 0 ? (
           <p className="text-center">No hay viajes</p>
         ) : (
