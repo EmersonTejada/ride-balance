@@ -11,7 +11,7 @@ import {
 } from "../ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useAuthStore } from "@/stores/useAuthStore";
-import { BanknoteArrowUp, LayoutDashboard, CreditCard } from "lucide-react";
+import { BanknoteArrowUp, LayoutDashboard, CreditCard, BarChart3 } from "lucide-react";
 import { Button } from "../ui/button";
 
 export const AppSidebar = () => {
@@ -48,6 +48,11 @@ export const AppSidebar = () => {
       label: "Gastos",
       icon: <CreditCard />,
     },
+    {
+      to: "reports",
+      label: "Reportes",
+      icon: <BarChart3 />
+    }
   ];
 
   return (
