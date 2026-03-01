@@ -1,16 +1,16 @@
-import { DashboardLayout } from "@/layouts/DashboardLayout";
-import { Landing } from "@/pages/Landing";
+import { DashboardLayout } from "@/features/dashboard/layouts/DashboardLayout";
+import { Landing } from "@/features/landing/pages/Landing";
 import { Route, Routes } from "react-router";
-import { RequireAuth } from "./RequireAuth";
-import { AuthLayout } from "@/layouts/AuthLayout";
-import { LoginForm } from "@/components/auth/LoginForm";
-import { SignUpForm } from "@/components/auth/SignUpForm";
-import { AuthCallback } from "./AuthCallback";
-import { Dashboard } from "@/pages/dashboard/Dashboard";
-import { Incomes } from "@/pages/dashboard/Incomes";
-import { Expenses } from "@/pages/dashboard/Expenses";
-import { Profile } from "@/pages/dashboard/Profile";
-import { Reports } from "@/pages/dashboard/Reports";
+import { RequireAuth } from "@/features/auth/components/RequireAuth";
+import { AuthLayout } from "@/features/auth/layouts/AuthLayout";
+import { LoginForm } from "@/features/auth/components/LoginForm";
+import { SignUpForm } from "@/features/auth/components/SignUpForm";
+import { AuthCallback } from "@/features/auth/components/AuthCallback";
+import { WeeklySummary } from "@/features/weekly-summary/pages/WeeklySummary";
+import { Incomes } from "@/features/rides/pages/Incomes";
+import { Expenses } from "@/features/expenses/pages/Expenses";
+import { Profile } from "@/features/profile/pages/Profile";
+import { Reports } from "@/features/reports/pages/Reports";
 
 export const AppRoutes = () => {
   return (
@@ -26,7 +26,7 @@ export const AppRoutes = () => {
           </RequireAuth>
         }
       >
-        <Route index element={<Dashboard />} />
+        <Route index element={<WeeklySummary />} />
         <Route path="incomes" element={<Incomes />} />
         <Route path="expenses" element={<Expenses />} />
         <Route path="profile" element={<Profile />} />
