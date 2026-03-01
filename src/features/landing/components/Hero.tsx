@@ -1,21 +1,57 @@
-import { Button } from '@/shared/components/ui/button';
+import { Button } from "@/shared/components/ui/button";
+import { Link } from "react-router";
+import { ArrowRight, Sparkles } from "lucide-react";
 
 export const Hero = () => {
   return (
-    <>
-      <section id="hero" className="h-screen flex flex-col justify-center items-center text-center">
-        <div className="flex flex-col items-center">
-          <h2 className="text-4xl md:text-6xl text-balance font-bold mb-4">
-            Controla tus ganancias y gastos como conductor de Aplicaciones
-          </h2>
-          <p className="text-lg md:text-xl text-muted-foreground mb-6">
-            Ride Balance te muestra tus ingresos diarios, gastos de operación y
-            tu rentabilidad real.
-          </p>
-          <Button size={"lg"}  className="text-md py-6 px-8">Comienza ahora</Button>
+    <section
+      id="hero"
+      className="relative min-h-screen flex flex-col justify-center items-center text-center overflow-hidden pt-20"
+    >
+      {/* Background decorations */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px] -z-10 animate-pulse" />
+      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-500/10 rounded-full blur-[100px] -z-10" />
+
+      <div className="container mx-auto px-4 flex flex-col items-center">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-8 border border-primary/20">
+          <Sparkles className="h-4 w-4" />
+          <span>La app #1 para conductores</span>
         </div>
 
-      </section>
-    </>
+        <h1 className="text-5xl md:text-7xl lg:text-8xl tracking-tight font-extrabold mb-6 max-w-5xl text-balance leading-tight">
+          Controla tus{" "}
+          <span className="text-transparent bg-clip-text bg-linear-to-r from-primary to-blue-600">
+            ganancias
+          </span>{" "}
+          y gastos al volante
+        </h1>
+
+        <p className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-2xl text-balance leading-relaxed">
+          Ride Balance te muestra tus ingresos diarios, costos logísticos de
+          operación y tu verdadera rentabilidad real por hora.
+        </p>
+
+        <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+          <Link to="/app" className="w-full sm:w-auto">
+            <Button
+              size="lg"
+              className="w-full text-md py-7 px-8 rounded-full font-semibold shadow-xl shadow-primary/25 hover:scale-105 transition-all group"
+            >
+              Comienza gratis
+              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </Link>
+          <a href="#how-it-works" className="w-full sm:w-auto">
+            <Button
+              size="lg"
+              variant="outline"
+              className="w-full text-md py-7 px-8 rounded-full font-semibold"
+            >
+              Ver cómo funciona
+            </Button>
+          </a>
+        </div>
+      </div>
+    </section>
   );
 };

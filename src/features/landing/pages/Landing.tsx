@@ -1,15 +1,21 @@
 import { Header } from "@/features/landing/components/Header";
 import { Hero } from "@/features/landing/components/Hero";
+import { Features } from "@/features/landing/components/Features";
+import { HowItWorks } from "@/features/landing/components/HowItWorks";
+import { CTA } from "@/features/landing/components/CTA";
+import { Footer } from "@/features/landing/components/Footer";
 
 export const Landing = () => {
   return (
-    <>
-      <div className="container mx-auto px-4 md:px-8 lg:px-16 xl:px-32">
-        <Header />
-        <main>
-          <Hero />
-        </main>
-      </div>
-    </>
+    <div className="min-h-screen bg-background flex flex-col font-sans">
+      <Header />
+      <main className="flex-1">
+        <Hero />
+        <Features />
+        <HowItWorks />
+        <CTA />
+      </main>
+      <Footer />
+    </div>
   );
 };
