@@ -62,7 +62,7 @@ export function ChartBarLabel({ chartData }: { chartData: ChartDataPoint[] }) {
       <CardContent>
         <ChartContainer
           config={chartConfig}
-          className="aspect-auto h-[150px] sm:h-[300px] w-full"
+          className="aspect-auto h-[120px] sm:h-[150px] w-full"
         >
           <BarChart
             accessibilityLayer
@@ -96,7 +96,7 @@ export function ChartBarLabel({ chartData }: { chartData: ChartDataPoint[] }) {
               fill="var(--color-amount)"
               radius={[6, 6, 0, 0]}
               activeBar={<Rectangle fillOpacity={0.8} />}
-              maxBarSize={60}
+              maxBarSize={120}
             >
               <LabelList
                 dataKey="amount"

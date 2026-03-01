@@ -12,7 +12,12 @@ import {
   TableRow,
 } from "@/shared/components/ui/table";
 import { Card } from "@/shared/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/shared/components/ui/tabs";
 import { Input } from "@/shared/components/ui/input";
 import { Label } from "@/shared/components/ui/label";
 import {
@@ -21,7 +26,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/shared/components/ui/dialog";
-import type { Expense, ExpenseFilters } from "@/features/expenses/schemas/expense.schema";
+import type {
+  Expense,
+  ExpenseFilters,
+} from "@/features/expenses/schemas/expense.schema";
 import { EditIcon, TrashIcon, PlusIcon } from "lucide-react";
 import { Skeleton } from "@/shared/components/ui/skeleton";
 import { Spinner } from "@/shared/components/ui/spinner";
@@ -125,9 +133,9 @@ export const Expenses = () => {
   );
 
   return (
-    <div className="p-2 md:p-4 space-y-6">
+    <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h1 className="text-2xl sm:text-3xl font-bold">Gastos</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Gastos</h1>
         <Button
           size="lg"
           onClick={() => setCreateOpen(true)}
@@ -137,16 +145,6 @@ export const Expenses = () => {
           Registrar Gasto
         </Button>
       </div>
-
-      {/* Summary Card */}
-      <Card className="p-4">
-        <div className="flex justify-between items-center">
-          <span className="text-sm text-muted-foreground">Total de Gastos</span>
-          <span className="text-2xl font-bold">
-            ${totalExpenses.toFixed(2)}
-          </span>
-        </div>
-      </Card>
 
       <div className="space-y-4">
         <Tabs
@@ -205,11 +203,21 @@ export const Expenses = () => {
               <>
                 {[...Array(5)].map((_, i) => (
                   <TableRow key={i}>
-                    <TableCell className="text-center"><Skeleton className="h-4 w-20 mx-auto" /></TableCell>
-                    <TableCell className="text-center"><Skeleton className="h-4 w-24 mx-auto" /></TableCell>
-                    <TableCell className="text-center"><Skeleton className="h-4 w-28 mx-auto" /></TableCell>
-                    <TableCell className="text-center"><Skeleton className="h-4 w-16 mx-auto" /></TableCell>
-                    <TableCell className="text-center"><Skeleton className="h-8 w-20 mx-auto" /></TableCell>
+                    <TableCell className="text-center">
+                      <Skeleton className="h-4 w-20 mx-auto" />
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <Skeleton className="h-4 w-24 mx-auto" />
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <Skeleton className="h-4 w-28 mx-auto" />
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <Skeleton className="h-4 w-16 mx-auto" />
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <Skeleton className="h-8 w-20 mx-auto" />
+                    </TableCell>
                   </TableRow>
                 ))}
               </>

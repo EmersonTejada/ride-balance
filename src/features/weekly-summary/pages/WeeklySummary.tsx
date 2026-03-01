@@ -48,7 +48,7 @@ export const WeeklySummary = () => {
   if (!data) return null;
 
   return (
-    <div className="flex flex-col gap-6 p-6">
+    <div className="flex flex-col gap-6 ">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Dashboard Semanal</h1>
         <p className="text-muted-foreground">
@@ -59,18 +59,18 @@ export const WeeklySummary = () => {
         <ChartBarLabel chartData={data.charts.incomeByDay || []} />
       </div>
       <div className="grid gap-4 grid-cols-2 lg:grid-cols-5">
-        <Card className="gap-1 md:gap-6 col-span-2 md:col-span-1 lg:col-span-1 flex flex-col justify-center text-center md:text-left">
-          <CardHeader className="flex flex-col md:flex-row items-center justify-between pb-0 md:pb-2">
-            <CardTitle className="text-md md:text-sm font-medium">
+        <Card className="gap-1 lg:gap-6 col-span-2 md:col-span-2 lg:col-span-1 flex flex-col justify-center text-center lg:text-left">
+          <CardHeader className="flex flex-col lg:flex-row items-center justify-between pb-0 lg:pb-2">
+            <CardTitle className="text-md lg:text-sm font-medium">
               Ingresos
-              <br className="hidden md:block" />
-              <span className="md:hidden"> Totales</span>
-              <span className="hidden md:block">Totales</span>
+              <br className="hidden lg:block" />
+              <span className="lg:hidden"> Totales</span>
+              <span className="hidden lg:block">Totales</span>
             </CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground hidden md:block" />
+            <DollarSign className="h-4 w-4 text-muted-foreground hidden lg:block" />
           </CardHeader>
           <CardContent>
-            <div className="text-3xl md:text-2xl font-bold">
+            <div className="text-3xl lg:text-2xl font-bold">
               {data.kpis.totalIncome}$
             </div>
           </CardContent>

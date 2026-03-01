@@ -1,5 +1,9 @@
 import { useAuthStore } from "@/features/auth/stores/useAuthStore";
-import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui/avatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/shared/components/ui/avatar";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/shared/components/ui/card";
 import { Separator } from "@/shared/components/ui/separator";
@@ -75,8 +79,8 @@ export const Profile = () => {
           <CardHeader>
             <h3 className="text-lg font-semibold">Cuenta</h3>
             <p className="text-sm text-muted-foreground mb-4">
-                Gestiona la configuración de tu cuenta y preferencias.
-              </p>
+              Gestiona la configuración de tu cuenta y preferencias.
+            </p>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex flex-col gap-2">
