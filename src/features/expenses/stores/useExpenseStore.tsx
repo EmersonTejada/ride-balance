@@ -1,6 +1,11 @@
-import type { NewExpense, Expense, ExpenseFilters } from "@/features/expenses/schemas/expense.schema";
+import type {
+  NewExpense,
+  Expense,
+  ExpenseFilters,
+} from "@/features/expenses/schemas/expense.schema";
 import * as ExpenseService from "../services/expense.service";
 import { create } from "zustand";
+import { getErrorMessage } from "@/shared/utils/errorHandler";
 
 interface ExpenseState {
   expenses: Expense[];
@@ -10,9 +15,12 @@ interface ExpenseState {
 
   fetchExpenses: (filters?: ExpenseFilters) => Promise<void>;
   getExpenseById: (id: string) => Promise<void>;
-  addExpense: (newExpense: NewExpense) => Promise<{success: boolean}>;
-  updateExpense: (id: string, expense: Partial<NewExpense>) => Promise<{success: boolean}>;
-  deleteExpense: (id: string) => Promise<{success: boolean}>;
+  addExpense: (newExpense: NewExpense) => Promise<{ success: boolean }>;
+  updateExpense: (
+    id: string,
+    expense: Partial<NewExpense>,
+  ) => Promise<{ success: boolean }>;
+  deleteExpense: (id: string) => Promise<{ success: boolean }>;
   clearError: () => void;
 }
 
@@ -26,7 +34,14 @@ export const useExpenseStore = create<ExpenseState>((set) => ({
     set({ loading: true, error: null });
     try {
       const data = await ExpenseService.getAllExpenses(filters);
-      set({ expenses: data.data.map((expense: Record<string, unknown>) => ({ ...expense, amount: parseFloat(expense.amount as string) })), loading: false, error: null });
+      set({
+        expenses: data.data.map((expense: Record<string, unknown>) => ({
+          ...expense,
+          amount: parseFloat(expense.amount as string),
+        })),
+        loading: false,
+        error: null,
+      });
     } catch (error) {
       set({ loading: false, error: (error as Error).message });
     }
@@ -46,7 +61,14 @@ export const useExpenseStore = create<ExpenseState>((set) => ({
     set({ loading: true, error: null });
     try {
       const data = await ExpenseService.createExpense(newExpense);
-      set((state) => ({ expenses: [...state.expenses, { ...data.data, amount: parseFloat(data.data.amount) }], loading: false, error: null }));
+      set((state) => ({
+        expenses: [
+          ...state.expenses,
+          { ...data.data, amount: parseFloat(data.data.amount) },
+        ],
+        loading: false,
+        error: null,
+      }));
       return { success: true };
     } catch (error) {
       set({ loading: false, error: (error as Error).message });
@@ -59,13 +81,17 @@ export const useExpenseStore = create<ExpenseState>((set) => ({
     try {
       const data = await ExpenseService.updateExpense(id, expense);
       set((state) => ({
-        expenses: state.expenses.map((e) => (e.id === id ? { ...data.data, amount: parseFloat(data.data.amount) } : e)),
+        expenses: state.expenses.map((e) =>
+          e.id === id
+            ? { ...data.data, amount: parseFloat(data.data.amount) }
+            : e,
+        ),
         loading: false,
-        error: null
+        error: null,
       }));
       return { success: true };
     } catch (error) {
-      set({ loading: false, error: (error as Error).message });
+      set({ loading: false, error: getErrorMessage(error) });
       return { success: false };
     }
   },
@@ -77,7 +103,7 @@ export const useExpenseStore = create<ExpenseState>((set) => ({
       set((state) => ({
         expenses: state.expenses.filter((e) => e.id !== id),
         loading: false,
-        error: null
+        error: null,
       }));
       return { success: true };
     } catch (error) {
