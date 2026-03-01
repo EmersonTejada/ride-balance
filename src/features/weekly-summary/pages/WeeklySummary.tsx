@@ -24,14 +24,14 @@ export const WeeklySummary = () => {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col gap-6 p-6">
+      <div className="flex flex-col gap-6">
         <Skeleton className="h-10 w-[200px]" />
+        <Skeleton className="h-[200px] rounded-xl" />
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
           {[...Array(5)].map((_, i) => (
             <Skeleton key={i} className="h-32 rounded-xl" />
           ))}
         </div>
-        <Skeleton className="h-[400px] rounded-xl" />
       </div>
     );
   }
