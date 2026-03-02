@@ -2,14 +2,33 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
 import { expenseSchema } from "@/features/expenses/schemas/expense.schema";
-import { Button } from '@/shared/components/ui/button';
-import { Field, FieldError, FieldGroup, FieldLabel } from '@/shared/components/ui/field';
-import { InputGroup, InputGroupInput } from '@/shared/components/ui/input-group';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/components/ui/select';
-import { Textarea } from '@/shared/components/ui/textarea';
+import { Button } from "@/shared/components/ui/button";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/shared/components/ui/field";
+import {
+  InputGroup,
+  InputGroupInput,
+} from "@/shared/components/ui/input-group";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/components/ui/select";
+import { Textarea } from "@/shared/components/ui/textarea";
 import { useExpenseStore } from "@/features/expenses/stores/useExpenseStore";
 import { useEffect } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/shared/components/ui/dialog";
 import type { Expense } from "@/features/expenses/schemas/expense.schema";
 
 interface EditExpenseFormProps {
@@ -18,7 +37,11 @@ interface EditExpenseFormProps {
   onOpenChange: (open: boolean) => void;
 }
 
-export const EditExpenseForm = ({ expense, open, onOpenChange }: EditExpenseFormProps) => {
+export const EditExpenseForm = ({
+  expense,
+  open,
+  onOpenChange,
+}: EditExpenseFormProps) => {
   const updateExpense = useExpenseStore((state) => state.updateExpense);
   const loading = useExpenseStore((state) => state.loading);
   const error = useExpenseStore((state) => state.error);
@@ -29,9 +52,8 @@ export const EditExpenseForm = ({ expense, open, onOpenChange }: EditExpenseForm
     defaultValues: {
       amount: expense.amount,
       category: expense.category,
-      subcategory: expense.subcategory,
-      description: expense.description,
-      date: new Date(expense.date).toISOString().split("T")[0],
+      subcategory: expense.subcategory || undefined,
+      description: expense.description || undefined,
     },
     mode: "onSubmit",
   });
@@ -68,26 +90,9 @@ export const EditExpenseForm = ({ expense, open, onOpenChange }: EditExpenseForm
                       type="number"
                       step="0.01"
                       placeholder="Ingresa el monto"
-                      onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                    />
-                  </InputGroup>
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
-            <Controller
-              name="date"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid} className="gap-2">
-                  <FieldLabel htmlFor="date">Fecha</FieldLabel>
-                  <InputGroup>
-                    <InputGroupInput
-                      {...field}
-                      id="date"
-                      type="date"
+                      onChange={(e) =>
+                        field.onChange(parseFloat(e.target.value))
+                      }
                     />
                   </InputGroup>
                   {fieldState.invalid && (
@@ -128,15 +133,26 @@ export const EditExpenseForm = ({ expense, open, onOpenChange }: EditExpenseForm
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid} className="gap-2">
-                  <FieldLabel htmlFor="subcategory">Subcategoría (opcional)</FieldLabel>
-                  <Select onValueChange={field.onChange} value={field.value || ""}>
+                  <FieldLabel htmlFor="subcategory">
+                    Subcategoría (opcional)
+                  </FieldLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value || ""}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Selecciona la subcategoría" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="fuel_refill">Recarga de combustible</SelectItem>
-                      <SelectItem value="oil_change">Cambio de aceite</SelectItem>
-                      <SelectItem value="oil_refill">Recarga de aceite</SelectItem>
+                      <SelectItem value="fuel_refill">
+                        Recarga de combustible
+                      </SelectItem>
+                      <SelectItem value="oil_change">
+                        Cambio de aceite
+                      </SelectItem>
+                      <SelectItem value="oil_refill">
+                        Recarga de aceite
+                      </SelectItem>
                       <SelectItem value="repair">Reparación</SelectItem>
                       <SelectItem value="spare_part">Repuesto</SelectItem>
                       <SelectItem value="tire">Llanta</SelectItem>
@@ -158,7 +174,9 @@ export const EditExpenseForm = ({ expense, open, onOpenChange }: EditExpenseForm
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid} className="gap-2">
-                  <FieldLabel htmlFor="description">Descripción (opcional)</FieldLabel>
+                  <FieldLabel htmlFor="description">
+                    Descripción (opcional)
+                  </FieldLabel>
                   <Textarea
                     {...field}
                     id="description"
@@ -174,7 +192,11 @@ export const EditExpenseForm = ({ expense, open, onOpenChange }: EditExpenseForm
           </FieldGroup>
           {error && <div className="text-destructive">{error}</div>}
           <div className="flex justify-end gap-2 mt-4">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+            >
               Cancelar
             </Button>
             <Button type="submit" disabled={loading}>
