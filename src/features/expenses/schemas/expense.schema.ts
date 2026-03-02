@@ -12,25 +12,28 @@ export const expenseSchema = z.object({
     "tolls",
     "other",
   ]),
-  subcategory: z.enum([
-    "fuel_refill",
-    "oil_change",
-    "oil_refill",
-    "repair",
-    "spare_part",
-    "tire",
-    "brake",
-    "battery",
-    "cleaning",
-    "accessory",
-    "unknown",
-  ]).optional(),
+  subcategory: z
+    .enum([
+      "fuel_refill",
+      "oil_change",
+      "oil_refill",
+      "repair",
+      "spare_part",
+      "tire",
+      "brake",
+      "battery",
+      "cleaning",
+      "accessory",
+      "unknown",
+    ])
+    .optional(),
   description: z.string().optional(),
 });
 
 export type Expense = z.infer<typeof expenseSchema> & {
   id: string;
   userId: string;
+  date: string;
 };
 
 export type NewExpense = z.infer<typeof expenseSchema>;
