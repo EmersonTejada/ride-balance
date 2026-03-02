@@ -26,7 +26,6 @@ export const expenseSchema = z.object({
     "unknown",
   ]).optional(),
   description: z.string().optional(),
-  date: z.string().min(1, "La fecha es requerida"),
 });
 
 export type Expense = z.infer<typeof expenseSchema> & {

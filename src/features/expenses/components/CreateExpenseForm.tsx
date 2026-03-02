@@ -29,7 +29,6 @@ export const CreateExpenseForm = ({ open, onOpenChange }: CreateExpenseFormProps
       category: "fuel",
       subcategory: undefined,
       description: "",
-      date: new Date().toISOString().split("T")[0],
     },
     mode: "onSubmit",
   });
@@ -68,25 +67,6 @@ export const CreateExpenseForm = ({ open, onOpenChange }: CreateExpenseFormProps
                       step="0.01"
                       placeholder="Ingresa el monto"
                       onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                    />
-                  </InputGroup>
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
-            <Controller
-              name="date"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid} className="gap-2">
-                  <FieldLabel htmlFor="date">Fecha</FieldLabel>
-                  <InputGroup>
-                    <InputGroupInput
-                      {...field}
-                      id="date"
-                      type="date"
                     />
                   </InputGroup>
                   {fieldState.invalid && (
