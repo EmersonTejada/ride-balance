@@ -1,6 +1,6 @@
 import { DashboardLayout } from "@/features/dashboard/layouts/DashboardLayout";
 import { Landing } from "@/features/landing/pages/Landing";
-import { Route, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 import { RequireAuth } from "@/features/auth/components/RequireAuth";
 import { AuthLayout } from "@/features/auth/layouts/AuthLayout";
 import { LoginForm } from "@/features/auth/components/LoginForm";
@@ -10,7 +10,9 @@ import { WeeklySummary } from "@/features/weekly-summary/pages/WeeklySummary";
 import { Incomes } from "@/features/rides/pages/Incomes";
 import { Expenses } from "@/features/expenses/pages/Expenses";
 import { Profile } from "@/features/profile/pages/Profile";
-import { Reports } from "@/features/reports/pages/Reports";
+import { SummaryReport } from "@/features/reports/pages/SummaryReport";
+import { IncomesReport } from "@/features/reports/pages/IncomesReport";
+import { ExpensesReport } from "@/features/reports/pages/ExpensesReport";
 
 export const AppRoutes = () => {
   return (
@@ -30,7 +32,12 @@ export const AppRoutes = () => {
         <Route path="incomes" element={<Incomes />} />
         <Route path="expenses" element={<Expenses />} />
         <Route path="profile" element={<Profile />} />
-        <Route path="reports" element={<Reports />} />
+        <Route path="reports">
+          <Route index element={<Navigate to="summary" replace />} />
+          <Route path="summary" element={<SummaryReport />} />
+          <Route path="incomes" element={<IncomesReport />} />
+          <Route path="expenses" element={<ExpensesReport />} />
+        </Route>
       </Route>
       <Route element={<AuthLayout />}>
         <Route path="login" element={<LoginForm />} />
