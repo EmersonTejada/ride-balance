@@ -2,6 +2,12 @@ import type { NewUser } from "@/features/auth/types/user";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+export const getToken = () => localStorage.getItem("token");
+
+export const setToken = (token: string) => localStorage.setItem("token", token);
+
+export const clearToken = () => localStorage.removeItem("token");
+
 export const signUp = async (user: NewUser) => {
   try {
     const response = await fetch(`${API_URL}/auth/register`, {
@@ -10,13 +16,18 @@ export const signUp = async (user: NewUser) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(user),
-      credentials: "include",
     });
 
     const data = await response.json();
 
     if (!response.ok) {
       throw new Error(data.message);
+    }
+
+    if (data.token) {
+      setToken(data.token);
+    } else if (data.data?.token) {
+      setToken(data.data.token);
     }
 
     return data;
@@ -34,13 +45,18 @@ export const signIn = async (email: string, password: string) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, password }),
-      credentials: "include",
     });
 
     const data = await response.json();
 
     if (!response.ok) {
       throw new Error(`${data.message}`);
+    }
+
+    if (data.token) {
+      setToken(data.token);
+    } else if (data.data?.token) {
+      setToken(data.data.token);
     }
 
     return data;
@@ -52,9 +68,15 @@ export const signIn = async (email: string, password: string) => {
 
 export const signOut = async () => {
   try {
+    const token = getToken();
+    const headers: HeadersInit = {};
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
     const response = await fetch(`${API_URL}/auth/logout`, {
       method: "POST",
-      credentials: "include",
+      headers,
     });
 
     const data = await response.json();
@@ -64,18 +86,25 @@ export const signOut = async () => {
       throw new Error(`${data.message}`);
     }
 
+    clearToken();
     return data;
   } catch (err) {
     console.error(err);
+    clearToken();
     throw err;
   }
 };
 
 export const getUser = async () => {
   try {
+    const token = getToken();
+    if (!token) throw new Error("No token found");
+
     const response = await fetch(`${API_URL}/auth/me`, {
       method: "GET",
-      credentials: "include",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     const data = await response.json();
