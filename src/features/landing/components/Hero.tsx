@@ -1,6 +1,5 @@
 import { Button } from "@/shared/components/ui/button";
 import { Link } from "react-router";
-import { ArrowRight, Sparkles } from "lucide-react";
 
 export const Hero = () => {
   return (
