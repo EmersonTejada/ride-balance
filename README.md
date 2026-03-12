@@ -1,73 +1,85 @@
-# React + TypeScript + Vite
+# 🚗 Ride Balance
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Ride Balance** es una aplicación web moderna diseñada para conductores que necesitan llevar un control detallado de sus viajes, ingresos, gastos y obtener un resumen claro de su rendimiento y balances financieros en diferentes períodos (semanal, mensual).
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Stack Tecnológico
 
-## React Compiler
+El proyecto está construido con tecnologías modernas para ofrecer una experiencia rápida, reactiva y escalable:
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+- **Frontend Core:** React 19, TypeScript, Vite
+- **Estilos:** Tailwind CSS v4, Lucide React (Iconos)
+- **Componentes UI:** Radix UI, shadcn/ui
+- **Gestión de Estado:** Zustand
+- **Routing:** React Router 7
+- **Gráficos y Visualización:** Recharts
+- **Formularios y Validación:** React Hook Form + Zod
+- **Backend / Base de Datos:** Supabase
+- **Utilidades:** date-fns (Manejo de fechas)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 📸 Screenshots del Dashboard
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+*Agrega aquí las capturas de pantalla de la aplicación.*
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+| Dashboard Principal | Reporte Mensual |
+| :---: | :---: |
+| ![Dashboard Principal](./public/screenshot-dashboard.webp) | ![Reportes y Gastos](./public/screenshot-reports.webp) |
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+*(Nota: Reemplaza las rutas de las imágenes una vez que incorpores las capturas reales en el proyecto).*
+
+---
+
+## 🏗️ Arquitectura Modular
+
+El proyecto sigue una arquitectura modular en el `frontend`, enfocada en separar responsabilidades (*Separation of Concerns*) y mantener el código escalable dividiéndolo por dominios de negocio o *features*.
+
+La arquitectura general se compone principalmente de:
+
+- **🗺️ Routes (`src/routes`)**: Archivos encargados de definir y centralizar el enrutamiento de la aplicación a través de React Router. Mapean las URLs hacia los componentes y vistas correspondientes.
+- **🎮 Controllers / Pages (`src/features/*/pages`)**: Componentes de React que actúan como "Controladores" de la vista. Coordinan el estado general de la pantalla, invocan a los servicios para la obtención de datos, manejan los estados de carga o error, y proveen la información a los componentes visuales.
+- **⚙️ Services (`src/features/*/services`)**: Capa pura de lógica de negocio y comunicación de red. Estos archivos encapsulan todas las peticiones a la API o interacciones con el cliente de **Supabase**. Extraen datos crudos, los formatean garantizando consistencia de tipos (`interfaces/schemas`), y los envían listos para usar a los controladores.
+
+Esta estructura asegura que la lógica de negocio y manipulación de datos no esté acoplada a la interfaz, lo que facilita realizar tests, reutilizar código y mantener la aplicación estable en el tiempo.
+
+---
+
+## 🛠️ Instrucciones de Instalación
+
+Sigue estos pasos para levantar el entorno de desarrollo local:
+
+### 1. Clonar el repositorio
+
+```bash
+git clone <URL_DEL_REPOSITORIO>
+cd ride-balance
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Instalar las dependencias
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Asegúrate de tener [Node.js](https://nodejs.org/) instalado. Ejecuta el siguiente comando para descargar los paquetes necesarios:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
+
+### 3. Configurar Variables de Entorno
+
+Crea o edita el archivo `.env` en la raíz del proyecto y configura tus credenciales de Supabase:
+
+```env
+VITE_SUPABASE_URL="tu_supabase_url"
+VITE_SUPABASE_ANON_KEY="tu_supabase_anon_key"
+```
+
+### 4. Levantar el entorno de desarrollo
+
+Inicia el servidor local manejado por Vite:
+
+```bash
+npm run dev
+```
+
+La aplicación estará disponible por defecto en `http://localhost:5173/`.

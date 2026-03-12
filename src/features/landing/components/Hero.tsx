@@ -13,11 +13,6 @@ export const Hero = () => {
       <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-500/10 rounded-full blur-[100px] -z-10" />
 
       <div className="container mx-auto px-4 flex flex-col items-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-8 border border-primary/20">
-          <Sparkles className="h-4 w-4" />
-          <span>La app #1 para conductores</span>
-        </div>
-
         <h1 className="text-5xl md:text-7xl lg:text-8xl tracking-tight font-extrabold mb-6 max-w-5xl text-balance leading-tight">
           Controla tus{" "}
           <span className="text-transparent bg-clip-text bg-linear-to-r from-primary to-blue-600">
@@ -35,10 +30,9 @@ export const Hero = () => {
           <Link to="/app" className="w-full sm:w-auto">
             <Button
               size="lg"
-              className="w-full text-md py-7 px-8 rounded-full font-semibold shadow-xl shadow-primary/25 hover:scale-105 transition-all group"
+              className="w-full text-md py-7 px-9 rounded-full font-semibold shadow-xl shadow-primary/25 hover:scale-105 transition-all group"
             >
               Comienza gratis
-              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>
           <a href="#how-it-works" className="w-full sm:w-auto">
