@@ -1,4 +1,5 @@
 import type { NewRide, RideFilters } from "@/features/rides/types/ride";
+import { getToken } from "@/features/auth/services/auth.service";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -8,9 +9,9 @@ export const createRide = async (newRide: NewRide) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
       },
       body: JSON.stringify(newRide),
-      credentials: "include",
     });
 
     const data = await response.json();
@@ -35,7 +36,9 @@ export const getAllRides = async (filters?: RideFilters) => {
 
     const response = await fetch(`${API_URL}/rides?${query.toString()}`, {
       method: "GET",
-      credentials: "include",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
     });
 
     const data = await response.json();
@@ -55,7 +58,9 @@ export const getRideById = async (id: string) => {
   try {
     const response = await fetch(`${API_URL}/rides/${id}`, {
       method: "GET",
-      credentials: "include",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
     });
 
     const data = await response.json();
@@ -75,7 +80,9 @@ export const deleteRide = async (id: string) => {
   try {
     const response = await fetch(`${API_URL}/rides/${id}`, {
       method: "DELETE",
-      credentials: "include",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
     });
 
     const data = await response.json();
@@ -97,9 +104,9 @@ export const updateRide = async (id: string, ride: Partial<NewRide>) => {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
       },
       body: JSON.stringify(ride),
-      credentials: "include",
     });
 
     const data = await response.json();
