@@ -24,10 +24,9 @@ export const signUp = async (user: NewUser) => {
       throw new Error(data.message);
     }
 
-    if (data.token) {
-      setToken(data.token);
-    } else if (data.data?.token) {
-      setToken(data.data.token);
+    // NestJS returns { access_token: "jwt..." }
+    if (data.access_token) {
+      setToken(data.access_token);
     }
 
     return data;
@@ -53,10 +52,9 @@ export const signIn = async (email: string, password: string) => {
       throw new Error(`${data.message}`);
     }
 
-    if (data.token) {
-      setToken(data.token);
-    } else if (data.data?.token) {
-      setToken(data.data.token);
+    // NestJS returns { access_token: "jwt..." }
+    if (data.access_token) {
+      setToken(data.access_token);
     }
 
     return data;
@@ -67,32 +65,9 @@ export const signIn = async (email: string, password: string) => {
 };
 
 export const signOut = async () => {
-  try {
-    const token = getToken();
-    const headers: HeadersInit = {};
-    if (token) {
-      headers["Authorization"] = `Bearer ${token}`;
-    }
-
-    const response = await fetch(`${API_URL}/auth/logout`, {
-      method: "POST",
-      headers,
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      console.log(response);
-      throw new Error(`${data.message}`);
-    }
-
-    clearToken();
-    return data;
-  } catch (err) {
-    console.error(err);
-    clearToken();
-    throw err;
-  }
+  // NestJS has no /auth/logout endpoint - just clear locally
+  clearToken();
+  return { success: true };
 };
 
 export const getUser = async () => {
@@ -113,7 +88,16 @@ export const getUser = async () => {
       throw new Error(`${data.message}`);
     }
 
-    return data;
+    // NestJS /auth/me returns flat { sub, email, name } - map sub -> userId and wrap
+    return {
+      data: {
+        user: {
+          userId: data.sub,
+          email: data.email,
+          name: data.name,
+        },
+      },
+    };
   } catch (err) {
     console.error(err);
     throw err;
