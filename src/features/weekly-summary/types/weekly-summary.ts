@@ -18,8 +18,26 @@ export interface ChartDataPoint {
   amount: string;
 }
 
+export interface ExpenseCategoryPercentage {
+  category: string;
+  percentage: number;
+}
+
+export interface IncomeByPlatform {
+  platform: string;
+  amount: number;
+}
+
+export interface IncomeByPlatformPercentage {
+  platform: string;
+  percentage: number;
+}
+
 export interface WeeklyCharts {
   incomeByDay: ChartDataPoint[];
+  expensesByCategoryPercentage: ExpenseCategoryPercentage[];
+  incomeByPlatform: IncomeByPlatform[];
+  incomeByPlatformPercentage: IncomeByPlatformPercentage[];
 }
 
 export interface WeeklySummaryData {

@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useWeeklyDashboardStore } from "../stores/useWeeklyDashboardStore";
 import { ChartBarLabel } from "../components/BarChart";
+import { DonutChart } from "@/shared/components/charts/DonutChart";
+import { PlatformBarChart } from "@/shared/components/charts/PlatformBarChart";
 import {
   Card,
   CardContent,
@@ -57,6 +59,18 @@ export const WeeklySummary = () => {
       </div>
       <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-1">
         <ChartBarLabel chartData={data.charts.incomeByDay || []} />
+      </div>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
+        <DonutChart
+          data={data.charts.expensesByCategoryPercentage || []}
+          title="Gastos por categoría"
+          description="Distribución porcentual de gastos"
+        />
+        <PlatformBarChart
+          data={data.charts.incomeByPlatform || []}
+          title="Ingresos por plataforma"
+          description="Ganancias por plataforma de viaje"
+        />
       </div>
       <div className="grid gap-4 grid-cols-2 lg:grid-cols-5">
         <Card className="gap-1 lg:gap-6 col-span-2 md:col-span-2 lg:col-span-1 flex flex-col justify-center text-center lg:text-left">
