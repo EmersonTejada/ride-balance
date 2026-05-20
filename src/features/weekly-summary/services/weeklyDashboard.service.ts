@@ -19,6 +19,9 @@ interface NestJSWeeklyResponse {
   };
   charts: {
     incomeByDay: { date: string; amount: number }[];
+    expensesByCategoryPercentage: { category: string; percentage: number }[];
+    incomeByPlatform: { platform: string; amount: number }[];
+    incomeByPlatformPercentage: { platform: string; percentage: number }[];
   };
 }
 
@@ -60,6 +63,11 @@ export const getWeeklyDashboard = async (): Promise<{
           date: point.date,
           amount: String(point.amount),
         })),
+        expensesByCategoryPercentage:
+          data.charts.expensesByCategoryPercentage || [],
+        incomeByPlatform: data.charts.incomeByPlatform || [],
+        incomeByPlatformPercentage:
+          data.charts.incomeByPlatformPercentage || [],
       },
     };
 
