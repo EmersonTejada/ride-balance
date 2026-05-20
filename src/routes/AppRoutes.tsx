@@ -13,6 +13,7 @@ import { Profile } from "@/features/profile/pages/Profile";
 import { SummaryReport } from "@/features/reports/pages/SummaryReport";
 import { IncomesReport } from "@/features/reports/pages/IncomesReport";
 import { ExpensesReport } from "@/features/reports/pages/ExpensesReport";
+import { Reservations } from "@/features/reservations/pages/Reservations";
 
 export const AppRoutes = () => {
   return (
@@ -31,6 +32,7 @@ export const AppRoutes = () => {
         <Route index element={<WeeklySummary />} />
         <Route path="incomes" element={<Incomes />} />
         <Route path="expenses" element={<Expenses />} />
+        <Route path="reservations" element={<Reservations />} />
         <Route path="profile" element={<Profile />} />
         <Route path="reports">
           <Route index element={<Navigate to="summary" replace />} />

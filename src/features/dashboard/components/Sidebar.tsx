@@ -24,6 +24,7 @@ import {
   CreditCard,
   BarChart3,
   ChevronRight,
+  Calendar,
 } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -71,6 +72,11 @@ export const AppSidebar = () => {
       to: "expenses",
       label: "Gastos",
       icon: <CreditCard />,
+    },
+    {
+      to: "reservations",
+      label: "Reservas",
+      icon: <Calendar />,
     },
     {
       to: "reports",
