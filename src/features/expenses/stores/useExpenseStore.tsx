@@ -4,6 +4,10 @@ import type {
   ExpenseFilters,
 } from "@/features/expenses/schemas/expense.schema";
 import * as ExpenseService from "../services/expense.service";
+import {
+  toFrontendCategory,
+  toFrontendSubcategory,
+} from "@/shared/utils/enum-utils";
 import { create } from "zustand";
 import { getErrorMessage } from "@/shared/utils/errorHandler";
 
@@ -34,9 +38,14 @@ export const useExpenseStore = create<ExpenseState>((set) => ({
     set({ loading: true, error: null });
     try {
       const data = await ExpenseService.getAllExpenses(filters);
+      // NestJS returns { data: [...], meta: {...} }
       set({
         expenses: data.data.map((expense: Record<string, unknown>) => ({
           ...expense,
+          category: toFrontendCategory(expense.category as string),
+          subcategory: expense.subcategory
+            ? toFrontendSubcategory(expense.subcategory as string)
+            : undefined,
           amount: parseFloat(expense.amount as string),
         })),
         loading: false,
@@ -51,7 +60,17 @@ export const useExpenseStore = create<ExpenseState>((set) => ({
     set({ loading: true, error: null });
     try {
       const data = await ExpenseService.getExpenseById(id);
-      set({ currentExpense: data.data, loading: false, error: null });
+      set({
+        currentExpense: {
+          ...data.data,
+          category: toFrontendCategory(data.data.category),
+          subcategory: data.data.subcategory
+            ? toFrontendSubcategory(data.data.subcategory)
+            : undefined,
+        },
+        loading: false,
+        error: null,
+      });
     } catch (error) {
       set({ loading: false, error: (error as Error).message });
     }
@@ -64,7 +83,14 @@ export const useExpenseStore = create<ExpenseState>((set) => ({
       set((state) => ({
         expenses: [
           ...state.expenses,
-          { ...data.data, amount: parseFloat(data.data.amount) },
+          {
+            ...data.data,
+            category: toFrontendCategory(data.data.category),
+            subcategory: data.data.subcategory
+              ? toFrontendSubcategory(data.data.subcategory)
+              : undefined,
+            amount: parseFloat(data.data.amount),
+          },
         ],
         loading: false,
         error: null,
@@ -83,7 +109,14 @@ export const useExpenseStore = create<ExpenseState>((set) => ({
       set((state) => ({
         expenses: state.expenses.map((e) =>
           e.id === id
-            ? { ...data.data, amount: parseFloat(data.data.amount) }
+            ? {
+                ...data.data,
+                category: toFrontendCategory(data.data.category),
+                subcategory: data.data.subcategory
+                  ? toFrontendSubcategory(data.data.subcategory)
+                  : undefined,
+                amount: parseFloat(data.data.amount),
+              }
             : e,
         ),
         loading: false,

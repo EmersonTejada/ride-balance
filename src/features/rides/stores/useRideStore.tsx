@@ -1,5 +1,6 @@
 import type { NewRide, Ride, RideFilters } from "@/features/rides/types/ride";
 import * as RideService from "../services/ride.service";
+import { toFrontendPlatform } from "@/shared/utils/enum-utils";
 import { create } from "zustand";
 
 interface RideState {
@@ -29,9 +30,11 @@ export const useRideStore = create<RideState>((set) => ({
     set({ loading: true, error: null });
     try {
       const data = await RideService.getAllRides(filters);
+      // NestJS returns { data: [...], meta: {...} }
       set({
         rides: data.data.map((ride: any) => ({
           ...ride,
+          platform: toFrontendPlatform(ride.platform),
           amount: parseFloat(ride.amount),
         })),
         loading: false,
@@ -46,7 +49,14 @@ export const useRideStore = create<RideState>((set) => ({
     set({ loading: true, error: null });
     try {
       const data = await RideService.getRideById(id);
-      set({ currentRide: data.data, loading: false, error: null });
+      set({
+        currentRide: {
+          ...data.data,
+          platform: toFrontendPlatform(data.data.platform),
+        },
+        loading: false,
+        error: null,
+      });
     } catch (error) {
       set({ loading: false, error: (error as Error).message });
     }
@@ -59,7 +69,11 @@ export const useRideStore = create<RideState>((set) => ({
       set((state) => ({
         rides: [
           ...state.rides,
-          { ...data.data, amount: parseFloat(data.data.amount) },
+          {
+            ...data.data,
+            platform: toFrontendPlatform(data.data.platform),
+            amount: parseFloat(data.data.amount),
+          },
         ],
         loading: false,
         error: null,
@@ -78,7 +92,11 @@ export const useRideStore = create<RideState>((set) => ({
       set((state) => ({
         rides: state.rides.map((r) =>
           r.id === id
-            ? { ...data.data, amount: parseFloat(data.data.amount) }
+            ? {
+                ...data.data,
+                platform: toFrontendPlatform(data.data.platform),
+                amount: parseFloat(data.data.amount),
+              }
             : r,
         ),
         loading: false,
