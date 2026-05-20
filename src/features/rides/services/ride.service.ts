@@ -1,17 +1,23 @@
 import type { NewRide, RideFilters } from "@/features/rides/types/ride";
 import { getToken } from "@/features/auth/services/auth.service";
+import { toBackendPlatform } from "@/shared/utils/enum-utils";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const createRide = async (newRide: NewRide) => {
   try {
+    const payload = {
+      ...newRide,
+      platform: toBackendPlatform(newRide.platform),
+    };
+
     const response = await fetch(`${API_URL}/rides`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${getToken()}`,
       },
-      body: JSON.stringify(newRide),
+      body: JSON.stringify(payload),
     });
 
     const data = await response.json();
@@ -20,19 +26,19 @@ export const createRide = async (newRide: NewRide) => {
       throw new Error(data.message);
     }
 
-    return data;
+    return { data };
   } catch (err) {
     console.error(err);
     throw err;
   }
 };
 
-export const getAllRides = async (filters?: RideFilters) => {
+export const getAllRides = async (_filters?: RideFilters) => {
   try {
+    // NestJS uses pagination: ?page=1&limit=50
     const query = new URLSearchParams();
-    if (filters?.platform) query.append("platform", filters.platform);
-    if (filters?.from) query.append("from", filters.from);
-    if (filters?.to) query.append("to", filters.to);
+    query.append("page", "1");
+    query.append("limit", "50");
 
     const response = await fetch(`${API_URL}/rides?${query.toString()}`, {
       method: "GET",
@@ -47,6 +53,7 @@ export const getAllRides = async (filters?: RideFilters) => {
       throw new Error(data.message);
     }
 
+    // NestJS returns { data: [...], meta: {...} }
     return data;
   } catch (err) {
     console.error(err);
@@ -69,7 +76,8 @@ export const getRideById = async (id: string) => {
       throw new Error(data.message);
     }
 
-    return data;
+    // NestJS returns flat ride object - wrap for store compatibility
+    return { data };
   } catch (err) {
     console.error(err);
     throw err;
@@ -91,7 +99,8 @@ export const deleteRide = async (id: string) => {
       throw new Error(data.message);
     }
 
-    return data;
+    // NestJS returns flat response - wrap for store compatibility
+    return { data };
   } catch (err) {
     console.error(err);
     throw err;
@@ -100,13 +109,18 @@ export const deleteRide = async (id: string) => {
 
 export const updateRide = async (id: string, ride: Partial<NewRide>) => {
   try {
+    const payload = {
+      ...ride,
+      ...(ride.platform && { platform: toBackendPlatform(ride.platform) }),
+    };
+
     const response = await fetch(`${API_URL}/rides/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${getToken()}`,
       },
-      body: JSON.stringify(ride),
+      body: JSON.stringify(payload),
     });
 
     const data = await response.json();
@@ -115,7 +129,8 @@ export const updateRide = async (id: string, ride: Partial<NewRide>) => {
       throw new Error(data.message);
     }
 
-    return data;
+    // NestJS returns flat ride object - wrap for store compatibility
+    return { data };
   } catch (err) {
     console.error(err);
     throw err;
