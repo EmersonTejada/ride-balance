@@ -1,7 +1,7 @@
 export interface WeeklyPeriod {
   from: string;
   to: string;
-  days: number;
+  days?: number;
   timezone: string;
 }
 
