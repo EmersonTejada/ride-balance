@@ -3,7 +3,6 @@ import {
   BarChart,
   CartesianGrid,
   LabelList,
-  ResponsiveContainer,
   XAxis,
   YAxis,
 } from "recharts";
@@ -70,41 +69,39 @@ export function PlatformBarChart({
           config={chartConfig}
           className="aspect-auto h-[250px] w-full"
         >
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={data}
-              layout="vertical"
-              margin={{
-                top: 8,
-                right: 24,
-                bottom: 8,
-                left: 60,
-              }}
-            >
-              <CartesianGrid horizontal={false} strokeDasharray="3 3" />
-              <XAxis type="number" tickLine={false} axisLine={false} />
-              <YAxis
-                dataKey="platform"
-                type="category"
-                tickLine={false}
-                axisLine={false}
-                width={50}
+          <BarChart
+            data={data}
+            layout="vertical"
+            margin={{
+              top: 8,
+              right: 24,
+              bottom: 8,
+              left: 60,
+            }}
+          >
+            <CartesianGrid horizontal={false} strokeDasharray="3 3" />
+            <XAxis type="number" tickLine={false} axisLine={false} />
+            <YAxis
+              dataKey="platform"
+              type="category"
+              tickLine={false}
+              axisLine={false}
+              width={50}
+            />
+            <ChartTooltip
+              cursor={{ fill: "var(--muted)", opacity: 0.4 }}
+              content={<ChartTooltipContent hideLabel />}
+              formatter={(value: number) => [`$${value}`, "Monto"]}
+            />
+            <Bar dataKey="amount" fill="var(--color-amount)" radius={[0, 6, 6, 0]}>
+              <LabelList
+                dataKey="amount"
+                position="right"
+                className="fill-foreground font-semibold text-xs"
+                formatter={(value: number) => `$${value}`}
               />
-              <ChartTooltip
-                cursor={{ fill: "var(--muted)", opacity: 0.4 }}
-                content={<ChartTooltipContent hideLabel />}
-                formatter={(value: number) => [`$${value}`, "Monto"]}
-              />
-              <Bar dataKey="amount" fill="var(--color-amount)" radius={[0, 6, 6, 0]}>
-                <LabelList
-                  dataKey="amount"
-                  position="right"
-                  className="fill-foreground font-semibold text-xs"
-                  formatter={(value: number) => `$${value}`}
-                />
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+            </Bar>
+          </BarChart>
         </ChartContainer>
       </CardContent>
     </Card>

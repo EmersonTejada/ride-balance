@@ -1,10 +1,4 @@
-import {
-  Cell,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-} from "recharts";
+import { Cell, Pie, PieChart, Tooltip } from "recharts";
 import {
   Card,
   CardContent,
@@ -71,33 +65,34 @@ export function DonutChart({ data, title, description }: DonutChartProps) {
         {description && <CardDescription>{description}</CardDescription>}
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="aspect-square h-[250px]">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie
-                data={chartData}
-                dataKey="percentage"
-                nameKey="category"
-                cx="50%"
-                cy="50%"
-                innerRadius={60}
-                outerRadius={80}
-                paddingAngle={2}
-                stroke="transparent"
-              >
-                {chartData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.fill} />
-                ))}
-              </Pie>
-              <Tooltip
-                content={<ChartTooltipContent hideLabel />}
-                formatter={(value: number, name: string) => [
-                  `${value}%`,
-                  name,
-                ]}
-              />
-            </PieChart>
-          </ResponsiveContainer>
+        <ChartContainer
+          config={chartConfig}
+          className="aspect-auto h-[250px] w-full"
+        >
+          <PieChart>
+            <Pie
+              data={chartData}
+              dataKey="percentage"
+              nameKey="category"
+              cx="50%"
+              cy="50%"
+              innerRadius={80}
+              outerRadius={110}
+              paddingAngle={2}
+              stroke="transparent"
+            >
+              {chartData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.fill} />
+              ))}
+            </Pie>
+            <Tooltip
+              content={<ChartTooltipContent hideLabel />}
+              formatter={(value: number, name: string) => [
+                `${value}%`,
+                name,
+              ]}
+            />
+          </PieChart>
         </ChartContainer>
         <div className="flex flex-wrap justify-center gap-4 mt-4">
           {chartData.map((item, index) => (
